@@ -1,24 +1,21 @@
-import { useState } from "react";
-import data from "./data";
-import { Link } from "react-router-dom";
+import React from 'react'
+import {useState, useEffect} from 'react'
+import {Card} from 'react-bootstrap'
+import ReactStars  from 'react-rating-stars-component';
+import data from '../data'
 
-const Description = (props) => {
+export default function Description (props) {
+  const [movie,setMovie] = useState (null)
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const movie = data.find((el) => el.id.toString() === props.match.params.id);
+  useEffect ( () => {setMovie ( data.filter (el => el.id === props.match.params.id) [0] )},[])
+    return (
+      <div>
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <button>
-          <Link to="/">home</Link>
-        </button>
+      {movie && ( <div >
+        <button onClick={handleShow}>Trailer</button>
         <div>
-          <h1>{movie.title}</h1>
-          <h3>{movie.discription}</h3>
-          <button onClick={handleShow}>Trailer</button>
-          <div>
-            {show ? (
+        {show ? (
               <iframe
                 width="560"
                 height="315"
@@ -30,10 +27,31 @@ const Description = (props) => {
               />
             ) : null}
           </div>
+      
+          {
+  <Card style={{ width: '18rem' }} > 
+  <Card.Img variant="top" src ={movie.images} className="img-movie" />
+  <Card.Body>
+    <Card.Title> 
+   {movie.titre} 
+    </Card.Title>
+    <Card.Text>
+   {movie.description}
+    </Card.Text> 
+    <div className = "star">
+    <ReactStars  
+    edit={false}
+         name="rate"
+        starCount={5}
+        value={movie.rate}
+        size={30}
+                    /> 
         </div>
-      </header>
-    </div>
-  );
-};
+  </Card.Body>
+</Card>}
 
-export default Description;
+        </div>)}
+        
+        </div>
+          )
+}
