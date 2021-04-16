@@ -2,6 +2,7 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import {Card} from 'react-bootstrap'
 import ReactStars  from 'react-rating-stars-component';
+import { Link } from 'react-router-dom';
 import data from '../data'
 
 export default function Description (props) {
@@ -11,7 +12,7 @@ export default function Description (props) {
   useEffect ( () => {setMovie ( data.filter (el => el.id === props.match.params.id) [0] )},[])
     return (
       <div>
-
+<Link to = '/'> Home</Link>
       {movie && ( <div >
         <button onClick={handleShow}>Trailer</button>
         <div>
